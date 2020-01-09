@@ -11,7 +11,7 @@ mod tests {
 		Withdraw(u64), //amount
 	}
 
-	#[derive(Debug, Deserialize, Serialize)]
+	#[derive(Debug, Default, Deserialize, PartialEq, Serialize)]
 	struct BankAccount {
 		account_number: String,
 		balance: u64,
@@ -24,12 +24,42 @@ mod tests {
 		transaction: TransactionType,
 	}
 
+	impl BankAccount {
+		fn new(account_number: String, balance: u64, transaction_history: Vec<String>) -> BankAccount {
+			BankAccount {account_number: account_number, balance: balance, transaction_history: transaction_history}
+		}
+	}
+
 	#[test]
 	fn bank_account_test() {
 		let account = BankAccount {account_number: "012-321".to_owned(), balance: 0, transaction_history: vec!["hi".to_owned()]};
 		assert_eq!(account.account_number, "012-321".to_owned());
 		assert_eq!(account.balance, 0);
 		assert_eq!(account.transaction_history[0], "hi");
+	}
+
+	#[test]
+	fn bank_account_new_test() {
+		let account = BankAccount::new("012-321".to_owned(), 0, vec!["hi".to_owned()]);
+		assert_eq!(account.account_number, "012-321".to_owned());
+		assert_eq!(account.balance, 0);
+		assert_eq!(account.transaction_history[0], "hi");
+	}
+
+	#[test]
+	fn bank_account_default_test() {
+		let account: BankAccount = Default::default();
+		assert_eq!(account.account_number, "".to_owned());
+		assert_eq!(account.balance, 0);
+		assert_eq!(account.transaction_history, Vec::<String>::new());
+	}
+
+	#[test]
+	fn bank_account_overriding_default_test() {
+		let account = BankAccount {account_number: "012-321".to_owned(), ..Default::default()};
+		assert_eq!(account.account_number, "012-321".to_owned());
+		assert_eq!(account.balance, 0);
+		assert_eq!(account.transaction_history, Vec::<String>::new());
 	}
 
 	//Change name

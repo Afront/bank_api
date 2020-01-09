@@ -23,16 +23,15 @@ mod tests {
 			BankAccount {account_number: account_number, balance: balance, transaction_history: transaction_history}
 		}
 
-		pub fn get_account_number(&self) -> String { //Previously check_balance
+		pub fn get_account_number(&self) -> String {
 			self.account_number.clone()
 		}
 
 		pub fn get_balance(&self) ->  u64 { //Previously check_balance
 			self.balance
 		}	
-
 		
-		pub fn get_transaction_history(&self) ->  Vec<Transaction> { //Previously check_balance
+		pub fn get_transaction_history(&self) ->  Vec<Transaction> { 
 			self.transaction_history.clone()
 		}
 	}
@@ -104,6 +103,4 @@ mod tests {
 		assert_eq!(account.get_transaction_history()[0].time, Utc::now());
 		assert_eq!(account.get_transaction_history()[0].transaction_type, TransactionType::Deposit(123));
 	}
-
-
 }

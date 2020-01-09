@@ -4,7 +4,7 @@ mod tests {
 	use serde::{Deserialize, Serialize};
 //	use serde_json::Result;
 
-	#[derive(Debug, PartialEq)]
+	#[derive(Debug, Deserialize, PartialEq, Serialize)]
 	enum TransactionType {
 		Deposit(u64), //amount
 		Transfer(u64, String), //amount, account_number
@@ -15,35 +15,43 @@ mod tests {
 	struct BankAccount {
 		account_number: String,
 		balance: u64,
-		transaction_history: Vec<String>,
+		transaction_history: Vec<Transaction>,
 	}
 
-	#[derive(Debug)]
+	impl BankAccount {
+		fn new(account_number: String, balance: u64, transaction_history: Vec<Transaction>) -> BankAccount {
+			BankAccount {account_number: account_number, balance: balance, transaction_history: transaction_history}
+		}
+	}
+
+	#[derive(Debug, Deserialize, PartialEq, Serialize)]
 	struct Transaction {
 		time: DateTime<Utc>,
 		transaction: TransactionType,
 	}
 
-	impl BankAccount {
-		fn new(account_number: String, balance: u64, transaction_history: Vec<String>) -> BankAccount {
-			BankAccount {account_number: account_number, balance: balance, transaction_history: transaction_history}
+	impl Transaction {
+		fn new(time: DateTime<Utc>, transaction: TransactionType) -> Transaction {
+			Transaction {time: time, transaction: transaction}
 		}
 	}
 
 	#[test]
 	fn bank_account_test() {
-		let account = BankAccount {account_number: "012-321".to_owned(), balance: 0, transaction_history: vec!["hi".to_owned()]};
+		let account = BankAccount {account_number: "012-321".to_owned(), balance: 0, transaction_history: vec![Transaction::new(Utc::now(),TransactionType::Deposit(123))]};
 		assert_eq!(account.account_number, "012-321".to_owned());
 		assert_eq!(account.balance, 0);
-		assert_eq!(account.transaction_history[0], "hi");
+		assert_eq!(account.transaction_history[0].time, Utc::now());
+		assert_eq!(account.transaction_history[0].transaction, TransactionType::Deposit(123));
 	}
 
 	#[test]
 	fn bank_account_new_test() {
-		let account = BankAccount::new("012-321".to_owned(), 0, vec!["hi".to_owned()]);
+		let account = BankAccount::new("012-321".to_owned(), 0, vec![Transaction::new(Utc::now(),TransactionType::Deposit(123))]);
 		assert_eq!(account.account_number, "012-321".to_owned());
 		assert_eq!(account.balance, 0);
-		assert_eq!(account.transaction_history[0], "hi");
+		assert_eq!(account.transaction_history[0].time, Utc::now());
+		assert_eq!(account.transaction_history[0].transaction, TransactionType::Deposit(123));
 	}
 
 	#[test]
@@ -51,7 +59,7 @@ mod tests {
 		let account: BankAccount = Default::default();
 		assert_eq!(account.account_number, "".to_owned());
 		assert_eq!(account.balance, 0);
-		assert_eq!(account.transaction_history, Vec::<String>::new());
+		assert_eq!(account.transaction_history, Vec::<Transaction>::new());
 	}
 
 	#[test]
@@ -59,7 +67,7 @@ mod tests {
 		let account = BankAccount {account_number: "012-321".to_owned(), ..Default::default()};
 		assert_eq!(account.account_number, "012-321".to_owned());
 		assert_eq!(account.balance, 0);
-		assert_eq!(account.transaction_history, Vec::<String>::new());
+		assert_eq!(account.transaction_history, Vec::<Transaction>::new());
 	}
 
 	//Change name

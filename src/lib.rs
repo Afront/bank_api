@@ -5,7 +5,7 @@ mod tests {
 //	use serde_json::Result;
 
 	#[derive(Debug, PartialEq)]
-	enum Transaction {
+	enum TransactionType {
 		Deposit(u64), //amount
 		Transfer(u64, String), //amount, account_number
 		Withdraw(u64), //amount
@@ -19,9 +19,9 @@ mod tests {
 	}
 
 	#[derive(Debug)]
-	struct TransactionHistory {
+	struct Transaction {
 		time: DateTime<Utc>,
-		transaction: Transaction,
+		transaction: TransactionType,
 	}
 
 	#[test]
@@ -32,17 +32,18 @@ mod tests {
 		assert_eq!(account.transaction_history[0], "hi");
 	}
 
+	//Change name
 	#[test]
 	fn transaction_history_test() {
-		let deposit_transaction = TransactionHistory {time: Utc::now(), transaction: Transaction::Deposit(1)};
-		let transfer_transaction = TransactionHistory {time: Utc::now(), transaction: Transaction::Transfer(1, "123-321".to_owned())};
-		let withdrawal_transaction = TransactionHistory {time: Utc::now(), transaction: Transaction::Withdraw(1)};
+		let deposit_transaction = Transaction {time: Utc::now(), transaction: TransactionType::Deposit(1)};
+		let transfer_transaction = Transaction {time: Utc::now(), transaction: TransactionType::Transfer(1, "123-321".to_owned())};
+		let withdrawal_transaction = Transaction {time: Utc::now(), transaction: TransactionType::Withdraw(1)};
 		assert_eq!(deposit_transaction.time, Utc::now());
-		assert_eq!(deposit_transaction.transaction, Transaction::Deposit(1));
+		assert_eq!(deposit_transaction.transaction, TransactionType::Deposit(1));
 		assert_eq!(transfer_transaction.time, Utc::now());
-		assert_eq!(transfer_transaction.transaction, Transaction::Transfer(1, "123-321".to_owned()));
+		assert_eq!(transfer_transaction.transaction, TransactionType::Transfer(1, "123-321".to_owned()));
 		assert_eq!(withdrawal_transaction.time, Utc::now());
-		assert_eq!(withdrawal_transaction.transaction, Transaction::Withdraw(1));
+		assert_eq!(withdrawal_transaction.transaction, TransactionType::Withdraw(1));
 	}
 
 }

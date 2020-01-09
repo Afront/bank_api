@@ -4,7 +4,7 @@ mod tests {
 	use serde::{Deserialize, Serialize};
 //	use serde_json::Result;
 
-	#[derive(Debug, Deserialize, PartialEq, Serialize)]
+	#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
 	enum TransactionType {
 		Deposit(u64), //amount
 		Transfer(u64, String), //amount, account_number
@@ -19,12 +19,25 @@ mod tests {
 	}
 
 	impl BankAccount {
-		fn new(account_number: String, balance: u64, transaction_history: Vec<Transaction>) -> BankAccount {
+		pub fn new(account_number: String, balance: u64, transaction_history: Vec<Transaction>) -> BankAccount {
 			BankAccount {account_number: account_number, balance: balance, transaction_history: transaction_history}
+		}
+
+		pub fn get_account_number(&self) -> String { //Previously check_balance
+			self.account_number.clone()
+		}
+
+		pub fn get_balance(&self) ->  u64 { //Previously check_balance
+			self.balance
+		}	
+
+		
+		pub fn get_transaction_history(&self) ->  Vec<Transaction> { //Previously check_balance
+			self.transaction_history.clone()
 		}
 	}
 
-	#[derive(Debug, Deserialize, PartialEq, Serialize)]
+	#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
 	struct Transaction {
 		time: DateTime<Utc>,
 		transaction_type: TransactionType,
@@ -70,7 +83,6 @@ mod tests {
 		assert_eq!(account.transaction_history, Vec::<Transaction>::new());
 	}
 
-	//Change name
 	#[test]
 	fn transaction_history_test() {
 		let deposit_transaction = Transaction {time: Utc::now(), transaction_type: TransactionType::Deposit(1)};
@@ -83,5 +95,15 @@ mod tests {
 		assert_eq!(withdrawal_transaction.time, Utc::now());
 		assert_eq!(withdrawal_transaction.transaction_type, TransactionType::Withdraw(1));
 	}
+
+	#[test]
+	fn bank_account_functions_test() {
+		let account = BankAccount::new("012-321".to_owned(), 0, vec![Transaction::new(Utc::now(),TransactionType::Deposit(123))]);
+		assert_eq!(account.get_account_number(), "012-321".to_owned());
+		assert_eq!(account.get_balance(), 0);
+		assert_eq!(account.get_transaction_history()[0].time, Utc::now());
+		assert_eq!(account.get_transaction_history()[0].transaction_type, TransactionType::Deposit(123));
+	}
+
 
 }

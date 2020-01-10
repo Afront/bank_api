@@ -23,18 +23,29 @@ impl BankAccount {
 		BankAccount {account_number: account_number, balance: balance, transaction_history: transaction_history}
 	}
 
-	pub fn get_account_number(&self) -> String {
+	pub fn account_number(&self) -> String {
 		self.account_number.clone()
 	}
 
-	pub fn get_balance(&self) ->  u64 { //Previously check_balance
+	pub fn balance(&self) ->  u64 { //Previously check_balance
 		self.balance
 	}	
 	
-	pub fn get_transaction_history(&self) ->  Vec<Transaction> { 
+	pub fn transaction_history(&self) ->  Vec<Transaction> { 
 		self.transaction_history.clone()
 	}
-}
+
+	pub fn set_account_number(&mut self, account_number: String) {
+		self.account_number = account_number;
+	}
+
+	pub fn set_balance(&mut self, balance: u64) { //Previously check_balance
+		self.balance = balance;
+	}	
+	
+	pub fn set_transaction_history(&mut self, transaction_history: Vec<Transaction>) { 
+		self.transaction_history = transaction_history;
+	}}
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
 pub struct Transaction {
@@ -47,11 +58,11 @@ impl Transaction {
 		Transaction {time: time, transaction_type: transaction_type}
 	}	
 
-	pub fn get_time(&self) -> DateTime<Utc> {
+	pub fn time(&self) -> DateTime<Utc> {
 		self.time
 	}
 
-	pub fn get_transaction_type(&self) ->  TransactionType { //Previously check_balance
+	pub fn transaction_type(&self) ->  TransactionType { //Previously check_balance
 		self.transaction_type.clone()
 	}	
 }

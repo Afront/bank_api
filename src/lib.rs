@@ -1,3 +1,4 @@
+#![forbid(unsafe_code)]
 #![allow(dead_code)]
 
 use chrono::prelude::*;
@@ -10,6 +11,7 @@ pub enum TransactionType {
 	Transfer(u64, String), //amount, account_number
 	Withdraw(u64), //amount
 }
+
 
 #[derive(Debug, Deserialize, PartialEq, Serialize)]
 pub struct BankAccount {

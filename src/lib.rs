@@ -11,41 +11,28 @@ pub enum TransactionType {
 	Withdraw(u64), //amount
 }
 
-#[derive(Debug, Default, Deserialize, PartialEq, Serialize)]
+#[derive(Debug, Deserialize, PartialEq, Serialize)]
 pub struct BankAccount {
 	account_number: String,
-	balance: u64,
-	transaction_history: Vec<Transaction>,
+	pub balance: u64,
+	pub transaction_history: Vec<Transaction>,
 }
 
 impl BankAccount {
-	pub fn new(account_number: String, balance: u64, transaction_history: Vec<Transaction>) -> BankAccount {
-		BankAccount {account_number: account_number, balance: balance, transaction_history: transaction_history}
+	pub fn new(account_number: u64, balance: u64, transaction_history: Vec<Transaction>) -> BankAccount {
+		BankAccount {account_number: account_number.to_string(), balance: balance, transaction_history: transaction_history}
 	}
 
 	pub fn account_number(&self) -> String {
 		self.account_number.clone()
 	}
+}
 
-	pub fn balance(&self) ->  u64 { //Previously check_balance
-		self.balance
-	}	
-	
-	pub fn transaction_history(&self) ->  Vec<Transaction> { 
-		self.transaction_history.clone()
+impl Default for BankAccount {
+	fn default() -> BankAccount {
+		BankAccount {account_number: "".to_owned(), balance: 0, transaction_history: Vec::<Transaction>::new()}
 	}
-
-	pub fn update_account_number(&mut self, account_number: String) {
-		self.account_number = account_number;
-	}
-
-	pub fn update_balance(&mut self, balance: u64) { //Previously check_balance
-		self.balance = balance;
-	}	
-	
-	pub fn update_transaction_history(&mut self, transaction_history: Vec<Transaction>) { 
-		self.transaction_history = transaction_history;
-	}}
+}
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
 pub struct Transaction {

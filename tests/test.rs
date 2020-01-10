@@ -5,28 +5,28 @@ mod tests {
 
 	#[test]
 	fn bank_account_test() {
-		let account = BankAccount::new("012-321".to_owned(), 0, vec![Transaction::new(Utc::now(),TransactionType::Deposit(123))]);
-		assert_eq!(account.account_number(), "012-321".to_owned());
-		assert_eq!(account.balance(), 0);
-		assert_eq!(account.transaction_history()[0].time(), Utc::now());
-		assert_eq!(account.transaction_history()[0].transaction_type(), TransactionType::Deposit(123));
+		let account = BankAccount::new(12345678, 0, vec![Transaction::new(Utc::now(),TransactionType::Deposit(123))]);
+		assert_eq!(account.account_number(), "12345678".to_owned());
+		assert_eq!(account.balance, 0);
+		assert_eq!(account.transaction_history[0].time(), Utc::now());
+		assert_eq!(account.transaction_history[0].transaction_type(), TransactionType::Deposit(123));
 	}
 
 	#[test]
 	fn bank_account_default_test() {
 		let account: BankAccount = Default::default();
 		assert_eq!(account.account_number(), "".to_owned());
-		assert_eq!(account.balance(), 0);
-		assert_eq!(account.transaction_history(), Vec::<Transaction>::new());
+		assert_eq!(account.balance, 0);
+		assert_eq!(account.transaction_history, Vec::<Transaction>::new());
 	}
 
 	#[test]
 	fn bank_account_overriding_default_test() {
 		let mut account: BankAccount = Default::default();
-		account.update_account_number("012-321".to_owned());
-		assert_eq!(account.account_number(), "012-321".to_owned());
-		assert_eq!(account.balance(), 0);
-		assert_eq!(account.transaction_history(), Vec::<Transaction>::new());
+		account.balance += 1;
+		assert_eq!(account.account_number(), "".to_owned());
+		assert_eq!(account.balance, 1);
+		assert_eq!(account.transaction_history, Vec::<Transaction>::new());
 	}
 
 	#[test]
@@ -44,10 +44,10 @@ mod tests {
 
 	#[test]
 	fn bank_account_functions_test() {
-		let account = BankAccount::new("012-321".to_owned(), 0, vec![Transaction::new(Utc::now(),TransactionType::Deposit(123))]);
-		assert_eq!(account.account_number(), "012-321".to_owned());
-		assert_eq!(account.balance(), 0);
-		assert_eq!(account.transaction_history()[0].time(), Utc::now());
-		assert_eq!(account.transaction_history()[0].transaction_type(), TransactionType::Deposit(123));
+		let account = BankAccount::new(12345678, 0, vec![Transaction::new(Utc::now(),TransactionType::Deposit(123))]);
+		assert_eq!(account.account_number(), "12345678".to_owned());
+		assert_eq!(account.balance, 0);
+		assert_eq!(account.transaction_history[0].time(), Utc::now());
+		assert_eq!(account.transaction_history[0].transaction_type(), TransactionType::Deposit(123));
 	}
 }

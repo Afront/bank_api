@@ -6,7 +6,7 @@ mod tests {
 	#[test]
 	fn bank_account_test() {
 		let account = BankAccount::new(123456781234, 0, vec![Transaction::new(Utc::now(),TransactionType::Deposit(123))]);
-		assert_eq!(account.account_number(), "AQ56 0000 1234 5678 1234".to_owned());
+		assert_eq!(account.account_number(), "AQ27 0000 1234 5678 1234".to_owned());
 		assert_eq!(account.balance, 0);
 		assert_eq!(account.transaction_history[0].time(), Utc::now());
 		assert_eq!(account.transaction_history[0].transaction_type(), TransactionType::Deposit(123));
@@ -59,7 +59,7 @@ mod tests {
 	#[test]
 	fn bank_account_functions_test() {
 		let account = BankAccount::new(123456781234, 0, vec![Transaction::new(Utc::now(),TransactionType::Deposit(123))]);
-		assert_eq!(account.account_number(), "AQ56 0000 1234 5678 1234".to_owned());
+		assert_eq!(account.account_number(), "AQ27 0000 1234 5678 1234".to_owned());
 		assert_eq!(account.balance, 0);
 		assert_eq!(account.transaction_history[0].time(), Utc::now());
 		assert_eq!(account.transaction_history[0].transaction_type(), TransactionType::Deposit(123));

@@ -25,7 +25,7 @@ impl BankAccount {
 		if bban.len() != 12 { //note: not .chars().count() as it's O(N) and it is converted from an unsigned integer, so len() should be better
 			panic!("The length of the account number should be exactly 12 digits long!");
 		}
-		let iban = format!{"AQ{:02} 0000 {} {} {}", (account_number % 97 * 10000 + 1026) % 97, &bban[0..4], &bban[4..8], &bban[8..12]};
+		let iban = format!{"AQ{:02} 0000 {} {} {}", 98 - (account_number * 10000 + 1026) * 100 % 97, &bban[0..4], &bban[4..8], &bban[8..12]};
 
 		BankAccount {account_number: iban, balance: balance, transaction_history: transaction_history}
 	}

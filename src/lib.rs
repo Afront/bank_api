@@ -18,9 +18,16 @@ pub struct BankAccount {
 	pub transaction_history: Vec<Transaction>,
 }
 
+
 impl BankAccount {
 	pub fn new(account_number: u64, balance: u64, transaction_history: Vec<Transaction>) -> BankAccount {
-		BankAccount {account_number: account_number.to_string(), balance: balance, transaction_history: transaction_history}
+		let bban = &account_number.to_string();
+		if bban.len() != 12 { //note: not .chars().count() as it's O(N) and it is converted from an unsigned integer, so len() should be better
+			panic!("The length of the account number should be exactly 12 digits long!");
+		}
+		let iban = format!{"AQ{:02} 0000 {} {} {}", (account_number % 97 * 10000 + 1026) % 97, &bban[0..4], &bban[4..8], &bban[8..12]};
+
+		BankAccount {account_number: iban, balance: balance, transaction_history: transaction_history}
 	}
 
 	pub fn account_number(&self) -> String {

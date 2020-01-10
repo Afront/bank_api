@@ -23,7 +23,7 @@ mod tests {
 	#[test]
 	fn bank_account_overriding_default_test() {
 		let mut account: BankAccount = Default::default();
-		account.set_account_number("012-321".to_owned());
+		account.update_account_number("012-321".to_owned());
 		assert_eq!(account.account_number(), "012-321".to_owned());
 		assert_eq!(account.balance(), 0);
 		assert_eq!(account.transaction_history(), Vec::<Transaction>::new());

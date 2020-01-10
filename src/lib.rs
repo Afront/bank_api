@@ -35,15 +35,15 @@ impl BankAccount {
 		self.transaction_history.clone()
 	}
 
-	pub fn set_account_number(&mut self, account_number: String) {
+	pub fn update_account_number(&mut self, account_number: String) {
 		self.account_number = account_number;
 	}
 
-	pub fn set_balance(&mut self, balance: u64) { //Previously check_balance
+	pub fn update_balance(&mut self, balance: u64) { //Previously check_balance
 		self.balance = balance;
 	}	
 	
-	pub fn set_transaction_history(&mut self, transaction_history: Vec<Transaction>) { 
+	pub fn update_transaction_history(&mut self, transaction_history: Vec<Transaction>) { 
 		self.transaction_history = transaction_history;
 	}}
 

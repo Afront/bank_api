@@ -32,8 +32,8 @@ impl BankAccount {
 		BankAccount {account_number: iban, balance: balance, transaction_history: transaction_history}
 	}
 
-	pub fn account_number(&self) -> String {
-		self.account_number.clone()
+	pub fn account_number(&self) -> &String {
+		&self.account_number
 	}
 }
 

@@ -15,31 +15,34 @@ pub enum TransactionType {
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
 pub struct BankAccount {
-	account_number: String,
+	account_number: [u8;12],
 	pub balance: u64,
 	pub transaction_history: Vec<Transaction>,
 }
 
 
 impl BankAccount {
-	pub fn new(account_number: u64, balance: u64, transaction_history: Vec<Transaction>) -> BankAccount {
-		let bban = &account_number.to_string();
-		if bban.len() != 12 { //note: not .chars().count() as it's O(N) and it is converted from an unsigned integer, so len() should be better
-			panic!("The length of the account number should be exactly 12 digits long!");
-		}
-		let iban = format!{"AQ{:02} 0000 {} {} {}", 98 - (account_number * 10000 + 1026) * 100 % 97, &bban[0..4], &bban[4..8], &bban[8..12]};
-
-		BankAccount {account_number: iban, balance: balance, transaction_history: transaction_history}
+	pub fn new(account_number: [u8;12], balance: u64, transaction_history: Vec<Transaction>) -> BankAccount {
+		BankAccount {account_number: account_number, balance: balance, transaction_history: transaction_history}
 	}
 
-	pub fn account_number(&self) -> &String {
-		&self.account_number
+	pub fn account_number(&self) -> String {
+		let mut bban = String::new();
+		let mut actual_number: u64 = 0;
+
+		for digit in &self.account_number {
+			bban += &digit.to_string();
+			actual_number += (*digit) as u64;
+			actual_number *= 10;
+		}
+
+		format!{"AQ{:02} 0000 {} {} {}", 98 - (actual_number * 10000 + 1026) * 100 % 97, &bban[0..4], &bban[4..8], &bban[8..12]}
 	}
 }
 
 impl Default for BankAccount {
 	fn default() -> BankAccount {
-		BankAccount {account_number: "".to_owned(), balance: 0, transaction_history: Vec::<Transaction>::new()}
+		BankAccount {account_number: [0,0,0,0,0,0,0,0,0,0,0,0], balance: 0, transaction_history: Vec::<Transaction>::new()}
 	}
 }
 

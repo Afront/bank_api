@@ -7,31 +7,17 @@ mod tests {
 
 	#[test]
 	fn bank_account_test() {
-		let account = BankAccount::new(123456781234, 0, vec![Transaction::new(Utc::now(),TransactionType::Deposit(123))]);
-		assert_eq!(*account.account_number(), "AQ27 0000 1234 5678 1234".to_owned());
+		let account = BankAccount::new([1,2,3,4,5,6,7,8,1,2,3,4], 0, vec![Transaction::new(Utc::now(),TransactionType::Deposit(123))]);
+		assert_eq!(account.account_number(), "AQ27 0000 1234 5678 1234".to_owned());
 		assert_eq!(account.balance, 0);
 		assert_eq!(account.transaction_history[0].time(), Utc::now());
 		assert_eq!(account.transaction_history[0].transaction_type(), TransactionType::Deposit(123));
 	}
 
 	#[test]
-	#[should_panic]
-	fn long_invalid_bank_account_test() {
-		let account = BankAccount::new(1234567, 0, vec![Transaction::new(Utc::now(),TransactionType::Deposit(123))]);
-		println!("{:?}", account);
-	}
-
-	#[test]
-	#[should_panic]
-	fn short_invalid_bank_account_test() {
-		let account = BankAccount::new(1234567, 0, vec![Transaction::new(Utc::now(),TransactionType::Deposit(123))]);
-		println!("{:?}", account);
-	}
-
-	#[test]
 	fn bank_account_default_test() {
 		let account: BankAccount = Default::default();
-		assert_eq!(*account.account_number(), "".to_owned());
+		assert_eq!(account.account_number(), "AQ27 0000 0000 0000 0000".to_owned());
 		assert_eq!(account.balance, 0);
 		assert_eq!(account.transaction_history, Vec::<Transaction>::new());
 	}
@@ -40,7 +26,7 @@ mod tests {
 	fn bank_account_overriding_default_test() {
 		let mut account: BankAccount = Default::default();
 		account.balance += 1;
-		assert_eq!(*account.account_number(), "".to_owned());
+		assert_eq!(account.account_number(), "AQ27 0000 0000 0000 0000".to_owned());
 		assert_eq!(account.balance, 1);
 		assert_eq!(account.transaction_history, Vec::<Transaction>::new());
 	}
@@ -60,7 +46,7 @@ mod tests {
 
 	#[test]
 	fn bank_account_functions_test() {
-		let account = BankAccount::new(123456781234, 0, vec![Transaction::new(Utc::now(),TransactionType::Deposit(123))]);
+		let account = BankAccount::new([1,2,3,4,5,6,7,8,1,2,3,4], 0, vec![Transaction::new(Utc::now(),TransactionType::Deposit(123))]);
 		assert_eq!(*account.account_number(), "AQ27 0000 1234 5678 1234".to_owned());
 		assert_eq!(account.balance, 0);
 		assert_eq!(account.transaction_history[0].time(), Utc::now());

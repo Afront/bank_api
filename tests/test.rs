@@ -48,12 +48,12 @@ mod tests {
 	#[test]
 	fn transaction_history_test() {
 		let deposit_transaction = Transaction::new(Utc::now(), TransactionType::Deposit(1));
-		let transfer_transaction = Transaction::new(Utc::now(), TransactionType::Transfer(1, "123-321".to_owned()));
+		let transfer_transaction = Transaction::new(Utc::now(), TransactionType::Transfer(1, 12345678));
 		let withdrawal_transaction = Transaction::new(Utc::now(), TransactionType::Withdraw(1));
 		assert_eq!(deposit_transaction.time(), Utc::now());
 		assert_eq!(deposit_transaction.transaction_type(), TransactionType::Deposit(1));
 		assert_eq!(transfer_transaction.time(), Utc::now());
-		assert_eq!(transfer_transaction.transaction_type(), TransactionType::Transfer(1, "123-321".to_owned()));
+		assert_eq!(transfer_transaction.transaction_type(), TransactionType::Transfer(1, 12345678));
 		assert_eq!(withdrawal_transaction.time(), Utc::now());
 		assert_eq!(withdrawal_transaction.transaction_type(), TransactionType::Withdraw(1));
 	}

@@ -8,7 +8,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
 pub enum TransactionType {
 	Deposit(u64), //amount
-	Transfer(u64, String), //amount, account_number
+	Transfer(u64, u64), //amount, account_number
 	Withdraw(u64), //amount
 }
 

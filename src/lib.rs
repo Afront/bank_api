@@ -13,7 +13,7 @@ pub enum TransactionType {
 }
 
 
-#[derive(Debug, Deserialize, PartialEq, Serialize)]
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
 pub struct BankAccount {
 	account_number: String,
 	pub balance: u64,

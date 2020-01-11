@@ -5,7 +5,7 @@ use chrono::prelude::*;
 use serde::{Deserialize, Serialize};
 //	use serde_json::Result;
 
-#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+#[derive(Clone, Copy, Debug, Deserialize, PartialEq, Serialize)]
 pub enum TransactionType {
 	Deposit(u64), //amount
 	Transfer(u64, u64), //amount, account_number
@@ -43,7 +43,7 @@ impl Default for BankAccount {
 	}
 }
 
-#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+#[derive(Clone, Copy, Debug, Deserialize, PartialEq, Serialize)]
 pub struct Transaction {
 	time: DateTime<Utc>,
 	transaction_type: TransactionType,
@@ -59,6 +59,6 @@ impl Transaction {
 	}
 
 	pub fn transaction_type(&self) ->  TransactionType { //Previously check_balance
-		self.transaction_type.clone()
+		self.transaction_type
 	}	
 }

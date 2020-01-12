@@ -61,6 +61,4 @@ mod tests {
 		account.withdraw(10);
 		account.transfer(5, &mut other_account);
 	}
-
-
 }

@@ -57,7 +57,7 @@ impl BankAccount {
 		//other.transaction_history.push(Transaction::new(Utc::now(), TransactionType::Transfer(transfer_amount, self.account_number_as_uint())));
 	}
 
-	pub fn withdrawal(&mut self, withdrawal_amount: u64) {
+	pub fn withdraw(&mut self, withdrawal_amount: u64) {
 		if self.balance < withdrawal_amount {
 			panic!("Not enough money!"); //Will change to Result
 			//self.transaction_history.push(Transaction.new(Utc::now(), TransactionType::Error("Withdrawal", withdrawal_amount, Error::NotEnoughMoney)));

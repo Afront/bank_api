@@ -45,11 +45,22 @@ mod tests {
 	}
 
 	#[test]
-	fn bank_account_functions_test() {
+	fn bank_account_members_test() {
 		let account = BankAccount::new([1,2,3,4,5,6,7,8,1,2,3,4], 0, vec![Transaction::new(Utc::now(),TransactionType::Deposit(123))]);
 		assert_eq!(*account.account_number(), "AQ27 0000 1234 5678 1234".to_owned());
 		assert_eq!(account.balance, 0);
 		assert_eq!(account.transaction_history[0].time(), Utc::now());
 		assert_eq!(account.transaction_history[0].transaction_type(), TransactionType::Deposit(123));
 	}
+
+	#[test]
+	fn bank_account_methods_test() {
+		let mut account = BankAccount::new([1,2,3,4,5,6,7,8,1,2,3,4], 0, vec![Transaction::new(Utc::now(),TransactionType::Deposit(123))]);
+		let mut other_account: BankAccount = Default::default();
+		account.deposit(100);
+		account.withdraw(10);
+		account.transfer(5, &mut other_account);
+	}
+
+
 }

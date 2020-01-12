@@ -38,6 +38,34 @@ impl BankAccount {
 
 		format!{"AQ{:02} 0000 {} {} {}", 98 - (actual_number * 10000 + 1026) * 100 % 97, &bban[0..4], &bban[4..8], &bban[8..12]}
 	}
+
+	pub fn deposit(&mut self, deposit_amount: u64) {
+		self.balance += deposit_amount;
+		self.transaction_history.push(Transaction::new(Utc::now(), TransactionType::Deposit(deposit_amount)));
+	}
+
+	pub fn transfer(&mut self, transfer_amount: u64, other: &mut BankAccount) {
+		if self.balance < transfer_amount {
+			panic!("Not enough money!"); //Will change to Result
+			//self.transaction_history.push(Transaction.new(Utc::now(), TransactionType::Error("Withdrawal", withdrawal_amount, Error::NotEnoughMoney)));
+			//return Err(Error::NotEnoughMoney);
+		}
+
+		self.balance -= transfer_amount;
+		other.balance += transfer_amount;
+		//self.transaction_history.push(Transaction::new(Utc::now(), TransactionType::Transfer(transfer_amount, -self.account_number_as_uint())));
+		//other.transaction_history.push(Transaction::new(Utc::now(), TransactionType::Transfer(transfer_amount, self.account_number_as_uint())));
+	}
+
+	pub fn withdrawal(&mut self, withdrawal_amount: u64) {
+		if self.balance < withdrawal_amount {
+			panic!("Not enough money!"); //Will change to Result
+			//self.transaction_history.push(Transaction.new(Utc::now(), TransactionType::Error("Withdrawal", withdrawal_amount, Error::NotEnoughMoney)));
+			//return Err(Error::NotEnoughMoney);
+		}
+		self.balance -= withdrawal_amount;
+		self.transaction_history.push(Transaction::new(Utc::now(), TransactionType::Withdraw(withdrawal_amount)));
+	}
 }
 
 impl Default for BankAccount {
